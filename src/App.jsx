@@ -75,14 +75,24 @@ function App() {
         }
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:3000/api/submit-inquiry', {
+            const response = await fetch('https://decorom-backend.onrender.com/api/submit-inquiry', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: formData.name, mobile: formData.mobile, design: formData.design, message: formData.message }),
             });
             const result = await response.json();
             if (response.ok) {
-                // Success logic
+                console.log(result.message);
+                if (formData.design) {
+                    const whatsappMessage = encodeURIComponent(
+                        `Design ${formData.design} has been chosen by ${formData.name || 'a customer'}.`
+                    );
+                    const whatsappUrl = `https://wa.me/919016707658?text=${whatsappMessage}`;
+                    window.open(whatsappUrl, '_blank');
+                }
+                setSubmitted(true);
+                setFormData({ name: '', mobile: '', message: '', design: '' });
+                setTimeout(() => setSubmitted(false), 5000);
             } else {
                 throw new Error(result.error || 'Submission failed');
             }
