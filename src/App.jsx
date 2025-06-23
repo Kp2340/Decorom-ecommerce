@@ -75,7 +75,7 @@ function App() {
         }
         setLoading(true);
         try {
-            const response = await fetch('https://decorom-backend.onrender.com/api/submit-inquiry', {
+            const response = await fetch('https://decorom-web.onrender.com/api/submit-inquiry', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: formData.name, mobile: formData.mobile, design: formData.design, message: formData.message }),
